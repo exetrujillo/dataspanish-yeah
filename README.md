@@ -14,7 +14,7 @@ Este repositorio contiene dos notebooks de Google Colab diseñados para analizar
 *   **API Key de Google Gemini:** Debes obtener una API key desde [Google AI Studio](https://aistudio.google.com/) (o el proveedor correspondiente).
 *   **Archivo de Frases (Opcional):** Si no quieres usar la lista de frases predefinida en `Dataset_spanish_yeah.ipynb`, puedes preparar tu propio archivo `.txt` o `.csv` con las frases a analizar.
 
-## Notebook 1: `Dataset_spanish_yeah.ipynb` - Análisis Lingüístico Detallado
+## Notebook 1: `dataspanish_yeah.ipynb` - Análisis Lingüístico Detallado
 
 **Propósito:** Tomar una lista de frases en español y generar un análisis profundo para cada una, incluyendo:
 
@@ -28,31 +28,28 @@ Este repositorio contiene dos notebooks de Google Colab diseñados para analizar
     *   Importa las librerías necesarias (`pandas`, `json`, `re`, `time`, `os`, `genai`).
     *   **Configura tu `GOOGLE_API_KEY`:** **Importante:** Añade tu API Key a los "Secrets" de Colab con el nombre `GOOGLE_API_KEY` (icono de llave en el panel izquierdo). El código intentará cargarla desde ahí.
     *   Define el modelo LLM a usar (ej: `gemini-1.5-flash`).
-2.  **Celda X (Opcional): Cargar Frases desde Archivo:**
-    *   Si prefieres usar tus propias frases desde un archivo `.txt` o `.csv` en lugar de la lista predefinida, descomenta y configura esta celda para cargar tu archivo.
-3.  **Celda 3: Definir Lista de Frases:**
-    *   Contiene una lista predefinida de frases (`frases_para_analizar`) con diversos fenómenos lingüísticos (ambigüedad, coloquialismos, complejidad, etc.). Puedes modificar o reemplazar esta lista. Si usaste la Celda X, esta celda puede ser omitida o su contenido será sobrescrito.
-4.  **Celda 4: Procesamiento Principal:**
+2.  **Celda 3: Definir Lista de Frases:**
+    *   Contiene una lista predefinida de frases (`frases_para_analizar`) con diversos fenómenos lingüísticos (ambigüedad, coloquialismos, complejidad, etc.). Puedes modificar o reemplazar esta lista.
+3.  **Celda 4: Procesamiento Principal:**
     *   Define los schemas JSON para cada categoría gramatical.
     *   Define funciones auxiliares (como `parse_cot`).
     *   **Bucle Principal:** Itera sobre cada `frase_para_analizar`.
         *   **Genera CoT:** Llama al modelo LLM con un prompt específico para generar la Cadena de Pensamiento detallada sobre la frase.
         *   **Genera JSON:** Parsea la identificación inicial de palabras del CoT y llama de nuevo al LLM con otro prompt (que incluye la frase, el CoT generado y los schemas) para producir la respuesta JSON estructurada palabra por palabra.
         *   Guarda la frase, el CoT y la respuesta JSON (como string) en una lista de resultados.
-        *   Incluye pausas (`time.sleep`) para evitar exceder los límites de la API.
-5.  **Celda 5: Exportar Resultados a CSV:**
+4.  **Celda 5: Exportar Resultados a CSV:**
     *   Convierte la lista de resultados en un DataFrame de Pandas.
     *   Guarda/Añade los resultados al archivo `diccionario_linguistico_output.csv` en el directorio de Colab. Si el archivo ya existe, añade las nuevas filas; si no, lo crea.
-6.  **Celda 6: Cargar y Mostrar Fila Específica:**
+5.  **Celda 6: Cargar y Mostrar Fila Específica:**
     *   Permite cargar el CSV generado y mostrar el contenido completo (Frase, CoT, JSON formateado) de una fila específica introduciendo su índice. Útil para inspeccionar resultados individuales.
 
 **Salida Principal:**
 
 *   El archivo `diccionario_linguistico_output.csv` que contiene la frase original, la Cadena de Pensamiento generada, y la respuesta JSON estructurada para cada frase procesada. **Este archivo es el input principal para el segundo notebook.**
 
-## Notebook 2: `data_spanish_wow.ipynb` - Visualización Semántica Interactiva
+## Notebook 2: `dataspanish_wow.ipynb` - Visualización Semántica Interactiva
 
-**Propósito:** Cargar el archivo CSV generado por el primer notebook y crear visualizaciones interactivas en 2D y 3D que muestren las relaciones semánticas entre las *palabras* de una frase seleccionada, utilizando embeddings de Gemini.
+**Propósito:** Cargar el archivo CSV generado por el primer notebook (quizás más modificado en python o R para eliminar filas inválidas u otras razones) y crear visualizaciones interactivas en 2D y 3D que muestren las relaciones semánticas entre las *palabras* de una frase seleccionada, utilizando embeddings de Gemini.
 
 **Flujo de Trabajo:**
 
@@ -60,7 +57,6 @@ Este repositorio contiene dos notebooks de Google Colab diseñados para analizar
     *   Instala librerías adicionales: `pandas`, `numpy`, `scikit-learn`, `plotly`, `umap-learn`, `nltk`.
     *   Importa las librerías necesarias.
     *   **Configura tu `GOOGLE_API_KEY`:** Igual que en el primer notebook, cárgala desde los Secrets.
-    *   Descarga el recurso `punkt` de NLTK (aunque su uso para segmentación fue reemplazado por el LLM en el flujo actual).
     *   Define los modelos a usar: `EMBEDDING_MODEL_NAME` (ej: `embedding-001` o el experimental si funciona) y `LLM_MODEL_NAME` (para el Meta-CoT).
 2.  **Celda 1: Carga, Limpieza y Exploración del CSV:**
     *   **Sube tu archivo `diccionario_linguistico_output.csv`** (o como lo hayas llamado) a la carpeta `sample_data` en Colab.
@@ -104,7 +100,7 @@ Este repositorio contiene dos notebooks de Google Colab diseñados para analizar
         *   Usa la columna `tooltip_details` para mostrar información detallada y formateada al pasar el ratón sobre cada palabra.
     *   Crea un gráfico de barras adicional mostrando la frecuencia de cada categoría gramatical, usando los mismos colores que el scatter plot.
     *   Muestra el Meta-CoT y la frase original como contexto.
-9.  **Celda 8 (Revisado): Guía de Interpretación (Mapa de Palabras):**
+9.  **Celda 8 (Eliminado): Guía de Interpretación (Mapa de Palabras):**
     *   Celda Markdown que explica cómo interpretar el gráfico 2D de palabras, considerando la proximidad, los colores de categoría, las líneas de secuencia y las limitaciones.
 10. **Celda 9: Reducción de Dimensionalidad a 3D:**
     *   Similar al Chunk 5, pero reduce los embeddings combinados a 3 componentes (X, Y, Z) usando UMAP y PCA.
