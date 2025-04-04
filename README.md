@@ -5,8 +5,8 @@ Notebooks para la creación de datasets para estudios lingüísticos usando GEMI
 
 Este repositorio contiene dos notebooks de Google Colab diseñados para analizar y visualizar datos lingüísticos de frases en español, utilizando la API de Google Gemini.
 
-1.  **`Dataset_spanish_yeah.ipynb`**: Realiza un análisis lingüístico detallado de cada frase de entrada.
-2.  **`data_spanish_wow.ipynb`**: Carga los resultados del primer notebook y genera visualizaciones interactivas (2D y 3D) de los embeddings semánticos de las palabras dentro de cada frase.
+1.  **`dataspanish_yeah.ipynb`**: Realiza un análisis lingüístico detallado de cada frase de entrada.
+2.  **`dataspanish_wow.ipynb`**: Carga los resultados del primer notebook y genera visualizaciones interactivas (2D y 3D) de los embeddings semánticos de las palabras dentro de cada frase.
 
 ## Requisitos Previos
 
